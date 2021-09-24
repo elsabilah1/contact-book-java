@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class ContactBook {
@@ -13,7 +12,7 @@ public class ContactBook {
         boolean flag = true;
         while (flag){
             System.out.println("\n==CONTACT BOOK==");
-            System.out.println("1. Add Data\n2. Delete Data\n3. Display Data \n4. Update Data\n5. Display All Data\n6. close app");
+            System.out.println("1. Add Data\n2. Search Data\n3. Display All Data\n4. Close App");
             System.out.print("select menu: ");
             int choice = in.nextInt();
             switch (choice){
@@ -22,6 +21,7 @@ public class ContactBook {
                     if (ContactData.getDataCount() <= ContactData.getMAXIMUMDATA()){
                         System.out.print("Name\t\t: ");
                         String name = in.next();
+                        in.nextLine();
                         System.out.print("Address\t\t: ");
                         String address = in.next();
                         in.nextLine();
@@ -35,19 +35,59 @@ public class ContactBook {
                     }
                     break;
                 case 2:
+                    System.out.println("\nSEARCH CONTACT DATA (by name)");
+                    System.out.print("input name here: ");
+                    String cdName = in.next();
+                    int cdIndex = 0;
+                    boolean found = false;
+
+                    for (ContactData contactData : cbList) {
+                        if (contactData.getName().equalsIgnoreCase(cdName)) {
+                            found = true;
+                            break;
+                        }
+                        cdIndex++;
+                    }
+                    if (!found){
+                        System.out.println("DATA NOT FOUND!");
+                    }else{
+                        System.out.println(cbList.get(cdIndex));
+                        System.out.println("1. Delete Data\t2. Update Data\t3. Back to Main Menu");
+                        System.out.print("==>");
+                        choice = in.nextInt();
+                        switch (choice){
+                            case 1:
+                                cbList.remove(cdIndex);
+                                ContactData.setDataCount(ContactData.getDataCount() - 1);
+                                System.out.println("delete data success!");
+                                break;
+                            case 2:
+                                System.out.print("Name\t\t\t: ");
+                                cbList.get(cdIndex).setName(in.next());
+                                System.out.print("Address\t\t\t: ");
+                                cbList.get(cdIndex).setAddress(in.next());
+                                System.out.print("Phone Number\t: ");
+                                cbList.get(cdIndex).setPhoneNumber(in.next());
+                                System.out.print("Email\t\t\t: ");
+                                cbList.get(cdIndex).setEmail(in.next());
+                                System.out.println("update data success!");
+                                break;
+                            case 3:
+                                backToMenu();
+                                break;
+                            default:
+                                System.out.println("error input");
+                        }
+                    }
                     break;
                 case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    System.out.println("\nCONTACT BOOK\nCapacity " + ContactData.getDataCount() + "/50");
+                    System.out.println("\nCONTACT BOOK\nCapacity " + ContactData.getDataCount() + "/" + ContactData.getMAXIMUMDATA());
                     for(ContactData cd: cbList) {
                         System.out.println(cd);
                     }
                     backToMenu();
                     break;
-                case 6:
+                case 4:
                     flag = false;
                     break;
                 default:
@@ -55,7 +95,7 @@ public class ContactBook {
             }
 
 //            sorting data
-            Collections.sort(cbList, ContactData.nameComparator);
+            cbList.sort(ContactData.nameComparator);
         }
     }
 

@@ -1,9 +1,7 @@
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Scanner;
 
 public class ContactData {
-    private static int MAXIMUMDATA = 50;
+    private static final int MAXIMUMDATA = 100;
     private static int dataCount;
     private String name;
     private String address;
@@ -11,8 +9,6 @@ public class ContactData {
     private String email;
 
 //    CONSTRUCTOR
-
-
     public ContactData(String name, String address, String phoneNumber, String email) {
         this.name = name;
         this.address = address;
@@ -64,10 +60,6 @@ public class ContactData {
 
     public static int getMAXIMUMDATA() {
         return MAXIMUMDATA;
-    }
-
-    public static void setMAXIMUMDATA(int MAXIMUMDATA) {
-        ContactData.MAXIMUMDATA = MAXIMUMDATA;
     }
 
     //    MORE METHODS
